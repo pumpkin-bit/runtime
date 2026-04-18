@@ -196,10 +196,8 @@ namespace System.IO.Compression
                 OperationStatus lastResult;
                 while (!TryDecompress(buffer.Span, out bytesWritten, out lastResult))
                 {
-                    if (_buffer.AvailableLength == 0)
-                    {
-                        _buffer.EnsureAvailableSpace(1);
-                    }
+                    _buffer.EnsureAvailableSpace(1);
+
                     int bytesRead = await _stream.ReadAsync(_buffer.AvailableMemory, cancellationToken).ConfigureAwait(false);
                     if (bytesRead <= 0)
                     {
